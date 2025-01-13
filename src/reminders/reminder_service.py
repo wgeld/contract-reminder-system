@@ -5,7 +5,7 @@ def query_database():
     cursor = conn.cursor()
     
     try:
-        cursor.execute("SELECT TOP 10 * FROM [wcfMgmt_test].[dbo].[availableSignalPorts2]")
+        cursor.execute("SELECT TOP 10 * FROM [wcfMgmt_test].[dbo].[wcfMgmtEquipments]")
         rows = cursor.fetchall()
         return rows
     except Exception as e:
