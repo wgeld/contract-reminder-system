@@ -1,21 +1,25 @@
 import pyodbc
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_db_connection():
     """
     Establish and return a connection to the SQL Server database.
     """
-    server = os.getenv("DB_SERVER", "localhost")  # Replace with your server
-    database = os.getenv("DB_NAME", "ContractsDB")  # Replace with your database
-    username = os.getenv("DB_USER", "sa")  # Replace with your username
-    password = os.getenv("DB_PASS", "password")  # Replace with your password
+    server = os.getenv("DB_SERVER")  # Replace with your server
+    database = os.getenv("DB_NAME")  # Replace with your database
+    username = os.getenv("DB_USER")  # Replace with your username
+    password = os.getenv("DB_PASS")  # Replace with your password
 
     connection_string = (
-        f"DRIVER={{ODBC Driver 17 for SQL Server}};"
-        f"SERVER=SQL_Dev1901;"
-        f"DATABASE=wcfMgmt_test;"
-        f"UID=wcf_app;"
-        f"PWD=wcfapp;"
+        f"DRIVER={{ODBC Driver 18 for SQL Server}};"
+        f"SERVER={server};"
+        f"DATABASE={database};"
+        f"UID={username};"
+        f"PWD={password};"
+        f"TrustServerCertificate=yes;"
     )
     
     try:
@@ -24,3 +28,5 @@ def get_db_connection():
     except pyodbc.Error as e:
         print(f"Database connection failed: {e}")
         raise
+
+
