@@ -13,13 +13,13 @@ def get_db_connection():
     password = os.getenv("DB_PASS")  
     driver = os.getenv("DB_DRIVER")
 
+    # Do not use Trusted_Connection=yes, it defaults to Windows Authentication.
     connection_string = (
         f"DRIVER={driver};"
         f"SERVER={server};"
         f"DATABASE={database};"
         f"UID={username};"
         f"PWD={password};"
-        f"Trusted_Connection=yes;"
         f"TrustServerCertificate=yes;"
         f"Integrated Security=false;"
     )

@@ -1,0 +1,27 @@
+
+* text=auto
+
+*.c text
+*.h text
+*.cpp text
+*.py text
+*.java text
+*.js text
+*.html text
+*.css text
+*.md text
+*.txt text
+
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.exe binary
+*.dll binary
+
+*.sh eol=lf  
+*.bat eol=crlf  
