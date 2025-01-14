@@ -1,4 +1,3 @@
-
 from database.services.NotificationLogService.notificationLogService import NotificationLogService
 from database.services.ContractDataService.contractDataService import ContractDataService
 from database.db_connection import get_db_session
