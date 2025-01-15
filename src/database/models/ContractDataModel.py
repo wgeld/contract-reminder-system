@@ -15,4 +15,5 @@ class ContractData(Base):
     Title = sa.Column(sa.String(255), nullable=True)
     ExpirationDate = sa.Column(sa.Date, nullable=True)
     ContractSummary = sa.Column(sa.Text, nullable=True)
+    ContractManager = sa.Column(sa.String(100), nullable=True)
 
