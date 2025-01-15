@@ -9,3 +9,4 @@ class ContractDataService:
         unprocessed_contracts = self.session.query(ContractData).filter(ContractData.ContractId == ContractId).all()
         return unprocessed_contracts
 
+
