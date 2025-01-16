@@ -35,8 +35,10 @@ def send_reminders():
                     expiration_date = contract.ExpirationDate
                     contract_title = contract.Title
                     contract_vendor = contract.VendorName
-                    reminder_date = generate_reminder_date(expiration_date, contract_type)
-                    notification_service.set_reminder(reminder_date, row.NotificationId)
+                    contract_manager = contract.ContractManager
+                    contract_summary = contract.ContractSummary
+                    
+                    
             
             
     except Exception as e:
