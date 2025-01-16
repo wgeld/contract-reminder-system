@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime, timedelta, date
 from database.services.NotificationLogService.notificationLogService import NotificationLogService
 from database.services.ContractDataService.contractDataService import ContractDataService
@@ -28,7 +29,15 @@ def send_reminders():
         contract_service = ContractDataService(session)
         unprocessed_results = notification_service.get_unprocessed_emails()
         for row in unprocessed_results:
-            if row.IsReminderSent == 0 and row.ReminderDate <= datetime.now():
+            # Convert datetime.now() to datetime object and strip time component if needed
+            current_time = datetime.now()
+            reminder_date = row.ReminderDate
+            
+            # Ensure both are datetime objects for comparison
+            if isinstance(reminder_date, date):
+                reminder_date = datetime.combine(reminder_date, datetime.min.time())
+            
+            if row.IsReminderSent == 0 and reminder_date <= current_time:
                 unprocessed_contracts = contract_service.get_unprocessed_contracts(row.ContractId)
                 for contract in unprocessed_contracts:
                     contract_type = contract.DocumentType
@@ -37,12 +46,13 @@ def send_reminders():
                     contract_vendor = contract.VendorName
                     contract_manager = contract.ContractManager
                     contract_summary = contract.ContractSummary
+
+                    print(contract)
                     
-                            
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
+#TODO: Must set actual contract types
 def generate_reminder_date(expiration_date: datetime, contract_type: str): 
     
     if contract_type == "Purchase Order":
@@ -63,5 +73,6 @@ def generate_reminder_date(expiration_date: datetime, contract_type: str):
 
 if __name__ == "__main__":
     process_contracts()
+    send_reminders()
 
 
