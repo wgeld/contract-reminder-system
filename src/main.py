@@ -38,9 +38,7 @@ def send_reminders():
                     contract_manager = contract.ContractManager
                     contract_summary = contract.ContractSummary
                     
-                    
-            
-            
+                            
     except Exception as e:
         print(f"An error occurred: {e}")
 
