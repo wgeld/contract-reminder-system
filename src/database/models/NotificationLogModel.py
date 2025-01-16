@@ -10,3 +10,5 @@ class NotificationLog(Base):
     ContractId = sa.Column(sa.Integer, nullable=False)
     CreatedAt = sa.Column(sa.DateTime, nullable=True)
     Processed = sa.Column(sa.Boolean, nullable=True)
+    ReminderDate = sa.Column(sa.DateTime, nullable=True)
+    IsReminderSent = sa.Column(sa.Boolean, nullable=True)
