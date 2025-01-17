@@ -14,9 +14,7 @@ def process_contracts():
         for row in unprocessed_results:
             unprocessed_contracts = contract_service.get_unprocessed_contracts(row.ContractId)
             for contract in unprocessed_contracts:
-                contract_type = contract.DocumentType
-                expiration_date = contract.ExpirationDate
-                reminder_date = generate_reminder_date(expiration_date, contract_type)
+                reminder_date = generate_reminder_date(contract.ExpirationDate, contract.DocumentType)
                 notification_service.set_reminder(reminder_date, row.NotificationId)
             
     except Exception as e:
@@ -73,6 +71,6 @@ def generate_reminder_date(expiration_date: datetime, contract_type: str):
 
 if __name__ == "__main__":
     process_contracts()
-    send_reminders()
+    #send_reminders()
 
 
