@@ -53,6 +53,9 @@ def send_reminders():
         print(f"An error occurred: {e}")
 
 #TODO: Must set actual contract types
+""" 
+Need Document Types. Set Document Type for Each Department.
+"""
 def generate_reminder_date(expiration_date: datetime, contract_type: str): 
     
     if contract_type == "Purchase Order":
