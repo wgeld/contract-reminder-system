@@ -2,6 +2,7 @@ import asyncio
 from datetime import datetime, timedelta, date
 from database.services.NotificationLogService.notificationLogService import NotificationLogService
 from database.services.ContractDataService.contractDataService import ContractDataService
+from database.services.ReminderHistory.reminderHistoryService import ReminderHistoryService
 from database.db_connection import get_db_session
 
 def process_contracts():
@@ -9,13 +10,14 @@ def process_contracts():
         session = get_db_session()
         notification_service = NotificationLogService(session)
         contract_service = ContractDataService(session)
+        reminder_history_service = ReminderHistoryService(session)
         # Query all results
         unprocessed_results = notification_service.get_unprocessed_notifications()
         for row in unprocessed_results:
             unprocessed_contracts = contract_service.get_unprocessed_contracts(row.ContractId)
             for contract in unprocessed_contracts:
                 reminder_date = generate_reminder_date(contract.ExpirationDate, contract.DocumentType)
-                notification_service.set_reminder(reminder_date, row.NotificationId)
+                reminder_history_service.set_reminder(reminder_date, contract.ContractId)
             
     except Exception as e:
         print(f"An error occurred: {e}")
