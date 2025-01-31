@@ -13,9 +13,6 @@ TENANT_ID = os.getenv("TENANT_ID")
 AUTHORITY = os.getenv("AUTHORITY")
 SCOPES = ["https://graph.microsoft.com/Mail.Send"]
 
-#DO NOT PUSH IDS TO GITHUB UNLESS IN .ENV
-
-
 def get_access_token() -> str:
     """
     Get access token from Microsoft Graph API
