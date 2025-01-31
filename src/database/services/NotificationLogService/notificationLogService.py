@@ -24,6 +24,4 @@ class NotificationLogService:
     
     
         
-    def get_unprocessed_emails(self):
-        unprocessed_emails = self.session.query(NotificationLog).filter(NotificationLog.IsReminderSent == 0).all()
-        return unprocessed_emails
+

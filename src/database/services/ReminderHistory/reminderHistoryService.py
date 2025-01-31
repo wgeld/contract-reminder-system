@@ -24,3 +24,10 @@ class ReminderHistoryService:
         except SQLAlchemyError as e:
             self.session.rollback()
             raise ValueError(f"Failed to update reminder date for contract with ID {contract_id}: {str(e)}")
+        
+    def get_unprocessed_emails(self):
+        try:
+            unprocessed_emails = self.session.query(ReminderHistory).filter(ReminderHistory.IsReminderSent == 0).all()
+            return unprocessed_emails
+        except SQLAlchemyError as e:
+            raise ValueError(f"Failed to get unprocessed emails: {str(e)}")
