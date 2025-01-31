@@ -1,16 +1,20 @@
 import msal
 import requests
 from typing import Dict, Any
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Configuration
+CLIENT_ID = os.getenv("CLIENT_ID")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+TENANT_ID = os.getenv("TENANT_ID")
+AUTHORITY = os.getenv("AUTHORITY")
+SCOPES = ["https://graph.microsoft.com/Mail.Send"]
 
 #DO NOT PUSH IDS TO GITHUB UNLESS IN .ENV
-CLIENT_ID = "your-client-id"
-CLIENT_SECRET = "your-client-secret"
-TENANT_ID = "your-tenant-id"
 
-AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
-SCOPES = ["https://graph.microsoft.com/.default"]
 
 def get_access_token() -> str:
     """
