@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, date
-from database.services.NotificationLogService.notificationLogService import NotificationLogService
-from database.services.ContractDataService.contractDataService import ContractDataService
-from database.services.ReminderHistory.reminderHistoryService import ReminderHistoryService
+from src.database.services.notificationLogService import NotificationLogService
+from src.database.services.contractDataService import ContractDataService
+from src.database.services.reminderHistoryService import ReminderHistoryService
 from database.db_connection import get_db_session
 from EmailService.emailSenderService import send_contract_email
 
