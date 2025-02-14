@@ -84,17 +84,17 @@ def send_reminders():
                     # Send the email
                     email_sent = send_contract_email(
                         recipient_email=contract_type.ContractOwnerEmail,
-                        sender_email="automation@wgeld.org",  # Replace with your sender email
+                        sender_email="automation@wgeld.org",  
                         contract_info=contract_info,
                         subject=subject,
                         body_template=body_template
                     )
 
-                    # Update reminder status if email was sent successfully
+                    
                     if email_sent:
-                        # reminder_history_service.mark_reminder_as_sent(row.ID)
-                        print(f"Email sent successfully to {contract.ContractManager} for contract {contract.Title}")
                         reminder_history_service.mark_email_as_sent(row.ReminderId)
+                        print(f"Email sent successfully to {contract.ContractManager} for contract {contract.Title}")
+                        
     except Exception as e:
         print(f"An error occurred: {e}")
 
