@@ -14,10 +14,6 @@ AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
 SCOPES = ["https://graph.microsoft.com/.default"]
 
 
-"""
-    Returns:
-        str: Access token if successful, raises exception if failed
-"""
 def get_access_token() -> str:
 
     app = msal.ConfidentialClientApplication(

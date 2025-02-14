@@ -62,14 +62,14 @@ def send_reminders():
                     # Create custom email subject and body
                     subject = f"Contract Expiration Reminder: {contract.Title}"
                     body_template = f"""
-                    Dear {contract.ContractManager},
+                    Dear {contract_type.ContractOwner},
 
                     This is a reminder about the following contract that requires your attention:
 
                     Contract Title: {contract.Title}
                     Contract ID: {contract.ContractId}
                     Vendor: {contract.VendorName}
-                    Contract Type: {contract.ContractType}
+                    Contract Type: {contract_type.ContractType}
                     Expiration Date: {contract.ExpirationDate.strftime("%Y-%m-%d")}
 
                     Contract Summary:
