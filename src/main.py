@@ -4,7 +4,7 @@ from database.services.contractDataService import ContractDataService
 from database.services.reminderHistoryService import ReminderHistoryService
 from database.services.contractTypeService import ContractTypeService
 from database.db_connection import get_db_session
-from EmailService.emailSenderService import send_contract_email
+from emailSenderService import send_contract_email
 
 def process_contracts():
     try:
@@ -27,7 +27,7 @@ def generate_reminder_date(expiration_date: datetime, contract_type_id: int):
     
     session = get_db_session()
     contract_type_service = ContractTypeService(session)
-    days_before_expiration = contract_type_service.get_contract_type(contract_type_id)
+    days_before_expiration = contract_type_service.get_contract_type_days_before_reminder(contract_type_id)
     reminder_date = expiration_date - timedelta(days=days_before_expiration)
     return reminder_date
 
@@ -36,6 +36,7 @@ def send_reminders():
         session = get_db_session()
         contract_service = ContractDataService(session)
         reminder_history_service = ReminderHistoryService(session)
+        contract_type_service = ContractTypeService(session)
 
         unprocessed_results = reminder_history_service.get_unprocessed_emails()
 
@@ -45,15 +46,17 @@ def send_reminders():
             if row.IsReminderSent == 0 and reminder_date <= current_time:
                 unprocessed_contracts = contract_service.get_unprocessed_contracts(row.ContractID)
                 for contract in unprocessed_contracts:
+                    contract_type = contract_type_service.get_contract_type(contract.ContractTypeId)
                     # Prepare contract information
                     contract_info = {
                         "contract_id": contract.ContractId,
-                        "contract_type": contract.ContractType,
+                        "contract_type": contract_type.ContractType,
                         "end_date": contract.ExpirationDate.strftime("%Y-%m-%d") if contract.ExpirationDate else "N/A",
                         "title": contract.Title, 
-                        "manager": contract.ContractManager,
+                        "manager": contract_type.ContractOwner,
                         "vendor": contract.VendorName,
-                        "summary": contract.ContractSummary
+                        "summary": contract.ContractSummary,
+                        "contract_type_id": contract.ContractTypeId
                     }
 
                     # Create custom email subject and body
@@ -80,7 +83,7 @@ def send_reminders():
 
                     # Send the email
                     email_sent = send_contract_email(
-                        recipient_email="ddagostino@wgeld.org",  # Assuming ContractManager field contains email
+                        recipient_email=contract_type.ContractOwnerEmail,
                         sender_email="automation@wgeld.org",  # Replace with your sender email
                         contract_info=contract_info,
                         subject=subject,
@@ -91,14 +94,14 @@ def send_reminders():
                     if email_sent:
                         # reminder_history_service.mark_reminder_as_sent(row.ID)
                         print(f"Email sent successfully to {contract.ContractManager} for contract {contract.Title}")
-                    
+                        reminder_history_service.mark_email_as_sent(row.ReminderId)
     except Exception as e:
         print(f"An error occurred: {e}")
 
 
 
 if __name__ == "__main__":
-    process_contracts()
-    #send_reminders()
+    #process_contracts()
+    send_reminders()
 
 

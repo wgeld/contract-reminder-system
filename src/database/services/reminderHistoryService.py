@@ -31,3 +31,11 @@ class ReminderHistoryService:
             return unprocessed_emails
         except SQLAlchemyError as e:
             raise ValueError(f"Failed to get unprocessed emails: {str(e)}")
+    
+    def mark_email_as_sent(self, reminder_id: int):
+        try:
+            self.session.query(ReminderHistory).filter(ReminderHistory.ReminderId == reminder_id).update({"IsReminderSent": 1})
+            self.session.commit()
+        except SQLAlchemyError as e:
+            self.session.rollback()
+            raise ValueError(f"Failed to mark email as sent for contract with ID {reminder_id}: {str(e)}")

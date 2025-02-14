@@ -8,21 +8,22 @@ load_dotenv()
 
 # Configuration
 CLIENT_ID = os.getenv("CLIENT_ID")
-CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+CLIENTSECRET = os.getenv("CLIENTSECRET")
 TENANT_ID = os.getenv("TENANT_ID")
 AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
 SCOPES = ["https://graph.microsoft.com/.default"]
 
-def get_access_token() -> str:
-    """
-    Get access token from Microsoft Graph API
+
+"""
     Returns:
         str: Access token if successful, raises exception if failed
-    """
+"""
+def get_access_token() -> str:
+
     app = msal.ConfidentialClientApplication(
         CLIENT_ID,
         authority=AUTHORITY,
-        client_credential=CLIENT_SECRET
+        client_credential=CLIENTSECRET
     )
     
     result = app.acquire_token_for_client(scopes=SCOPES)
@@ -32,6 +33,11 @@ def get_access_token() -> str:
     else:
         raise Exception(f"Failed to acquire token: {result.get('error_description')}")
 
+"""    
+Returns:
+    bool: True if email sent successfully, False otherwise
+"""
+
 def send_contract_email(
     recipient_email: str,
     sender_email: str,
@@ -39,36 +45,23 @@ def send_contract_email(
     subject: str = None,
     body_template: str = None
 ) -> bool:
-    """
-    Send an email with contract information using Microsoft Graph API
-    
-    Args:
-        recipient_email (str): Email address of the recipient
-        sender_email (str): Email address of the sender
-        contract_info (dict): Dictionary containing contract information
-        subject (str, optional): Custom email subject. Defaults to None
-        body_template (str, optional): Custom email body template. Defaults to None
-        
-    Returns:
-        bool: True if email sent successfully, False otherwise
-    """
+
     try:
         access_token = get_access_token()
         
-        # Default subject and body if not provided
         if not subject:
             subject = f"Contract Information: {contract_info.get('contract_id', 'N/A')}"
             
         if not body_template:
             body_template = f"""
-Contract Details:
-Contract ID: {contract_info.get('contract_id', 'N/A')}
-Contract Type: {contract_info.get('contract_type', 'N/A')}
-Start Date: {contract_info.get('start_date', 'N/A')}
-End Date: {contract_info.get('end_date', 'N/A')}
+                            Contract Details:
+                            Contract ID: {contract_info.get('contract_id', 'N/A')}
+                            Contract Type: {contract_info.get('contract_type', 'N/A')}
+                            Start Date: {contract_info.get('start_date', 'N/A')}
+                            End Date: {contract_info.get('end_date', 'N/A')}
 
-Please review the contract information above.
-"""
+                            Please review the contract information above.
+                            """
 
         email_data = {
             "message": {
@@ -93,7 +86,6 @@ Please review the contract information above.
         )
 
         if response.status_code == 202:
-            print("Email sent successfully!")
             return True
         else:
             print(f"Error: {response.status_code}, {response.text}")
