@@ -74,42 +74,41 @@ def send_reminders():
                 for contract in unprocessed_contracts:
                     # Prepare contract information
                     contract_info = {
-                        "contract_id": contract.ContractID,
+                        "contract_id": contract.ContractId,
                         "contract_type": contract.ContractType,
-                        "start_date": contract.StartDate.strftime("%Y-%m-%d") if contract.StartDate else "N/A",
                         "end_date": contract.ExpirationDate.strftime("%Y-%m-%d") if contract.ExpirationDate else "N/A",
-                        "title": contract.Title,
-                        "vendor": contract.VendorName,
+                        "title": contract.Title, 
                         "manager": contract.ContractManager,
+                        "vendor": contract.VendorName,
                         "summary": contract.ContractSummary
                     }
 
                     # Create custom email subject and body
                     subject = f"Contract Expiration Reminder: {contract.Title}"
                     body_template = f"""
-Dear {contract.ContractManager},
+                    Dear {contract.ContractManager},
 
-This is a reminder about the following contract that requires your attention:
+                    This is a reminder about the following contract that requires your attention:
 
-Contract Title: {contract.Title}
-Contract ID: {contract.ContractID}
-Vendor: {contract.VendorName}
-Contract Type: {contract.ContractType}
-Expiration Date: {contract.ExpirationDate.strftime("%Y-%m-%d")}
+                    Contract Title: {contract.Title}
+                    Contract ID: {contract.ContractId}
+                    Vendor: {contract.VendorName}
+                    Contract Type: {contract.ContractType}
+                    Expiration Date: {contract.ExpirationDate.strftime("%Y-%m-%d")}
 
-Contract Summary:
-{contract.ContractSummary}
+                    Contract Summary:
+                    {contract.ContractSummary}
 
-Please review this contract and take necessary actions before the expiration date.
+                    Please review this contract and take necessary actions before the expiration date.
 
-Best regards,
-Contract Management System
-"""
+                    Best regards,
+                    Contract Management System
+                """
 
                     # Send the email
                     email_sent = send_contract_email(
-                        recipient_email=contract.ContractManager,  # Assuming ContractManager field contains email
-                        sender_email="your-sender-email@example.com",  # Replace with your sender email
+                        recipient_email="ddagostino@wgeld.org",  # Assuming ContractManager field contains email
+                        sender_email="automation@wgeld.org",  # Replace with your sender email
                         contract_info=contract_info,
                         subject=subject,
                         body_template=body_template
@@ -117,7 +116,8 @@ Contract Management System
 
                     # Update reminder status if email was sent successfully
                     if email_sent:
-                        reminder_history_service.mark_reminder_as_sent(row.ID)
+                        # reminder_history_service.mark_reminder_as_sent(row.ID)
+                        print(f"Email sent successfully to {contract.ContractManager} for contract {contract.Title}")
                     
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -125,7 +125,7 @@ Contract Management System
 
 
 if __name__ == "__main__":
-    process_contracts()
+    #process_contracts()
     send_reminders()
 
 
