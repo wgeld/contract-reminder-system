@@ -6,6 +6,7 @@ class ContractTypeService:
         self.session = session
 
     def get_contract_type(self, contract_type_id: int):
-        return self.session.query(ContractTypes).filter(ContractTypes.ContractTypeId == contract_type_id).first()
+        contract_type = self.session.query(ContractTypes).filter(ContractTypes.ContractTypeId == contract_type_id).first()
+        return contract_type.DaysBeforeReminder
 
 

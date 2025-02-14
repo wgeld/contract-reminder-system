@@ -27,11 +27,7 @@ def generate_reminder_date(expiration_date: datetime, contract_type_id: int):
     
     session = get_db_session()
     contract_type_service = ContractTypeService(session)
-    contract_type = contract_type_service.get_contract_type(contract_type_id)
-
-
-    # Determine reminder days, default to 30 if not found
-    days_before_expiration = reminder_days.get(contract_type, 30)
+    days_before_expiration = contract_type_service.get_contract_type(contract_type_id)
     reminder_date = expiration_date - timedelta(days=days_before_expiration)
     return reminder_date
 
@@ -102,7 +98,7 @@ def send_reminders():
 
 
 if __name__ == "__main__":
-    #process_contracts()
-    send_reminders()
+    process_contracts()
+    #send_reminders()
 
 
