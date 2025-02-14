@@ -8,11 +8,8 @@ class NotificationLogService:
     def __init__(self, session: Session):
         self.session = session
 
-
-
     def get_unprocessed_notifications(self):
-        unprocessed_notifications = self.session.query(NotificationLog).filter(NotificationLog.Processed == False).all()
-        return unprocessed_notifications
+        return self.session.query(NotificationLog).filter(NotificationLog.Processed == False).all()
     
     def mark_notification_as_processed(self, notification_id: int):
         notification = self.session.query(NotificationLog).get(notification_id)

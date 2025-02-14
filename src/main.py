@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta, date
-from src.database.services.notificationLogService import NotificationLogService
-from src.database.services.contractDataService import ContractDataService
-from src.database.services.reminderHistoryService import ReminderHistoryService
+from database.services.notificationLogService import NotificationLogService
+from database.services.contractDataService import ContractDataService
+from database.services.reminderHistoryService import ReminderHistoryService
+from database.services.contractTypeService import ContractTypeService
 from database.db_connection import get_db_session
 from EmailService.emailSenderService import send_contract_email
 
@@ -16,42 +17,18 @@ def process_contracts():
         for row in unprocessed_results:
             unprocessed_contracts = contract_service.get_unprocessed_contracts(row.ContractId)
             for contract in unprocessed_contracts:
-                reminder_date = generate_reminder_date(contract.ExpirationDate, contract.ContractType)
+                reminder_date = generate_reminder_date(contract.ExpirationDate, contract.ContractTypeId)
                 reminder_history_service.set_reminder(reminder_date, contract.ContractId)
             
     except Exception as e:
         print(f"An error occurred: {e}")
 
-def generate_reminder_date(expiration_date: datetime, contract_type: str): 
-    # Define reminder days for each contract type
-    reminder_days = {
-        "Purchase Order": 30,
-        "Consulting Agreement": 15,
-        "Bids": 30,
-        "Tree Trimming": 30,
-        "Fiber General Services": 25,
-        "Contractors": 30,
-        "Gas General Services": 20,
-        "Corrosion Control": 25,
-        "Welding/Pipe Fitting": 30,
-        "Leak Patrol": 20,
-        "Plumbing": 30,
-        "Materials": 30,
-        "Phone Systems": 30,
-        "Fiber Equipment": 30,
-        "Networking": 30,
-        "Office Supplies": 25,
-        "General Services": 30,
-        "Power": 30,
-        "Electric Supply": 30,
-        "Transmission": 30,
-        "Capacity": 30,
-        "Gas supply": 20,
-        "Office Equipment": 30,
-        "Printers": 30,
-        "Computers": 30,
-        "Laptops": 25
-    }
+def generate_reminder_date(expiration_date: datetime, contract_type_id: int): 
+    
+    session = get_db_session()
+    contract_type_service = ContractTypeService(session)
+    contract_type = contract_type_service.get_contract_type(contract_type_id)
+
 
     # Determine reminder days, default to 30 if not found
     days_before_expiration = reminder_days.get(contract_type, 30)

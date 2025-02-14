@@ -17,4 +17,5 @@ class ContractData(Base):
     ContractSummary = sa.Column(sa.Text, nullable=True)
     ContractManager = sa.Column(sa.String(100), nullable=True)
     ContractSubType = sa.Column(sa.String(100), nullable=True)
+    ContractTypeId = sa.Column(sa.Integer, nullable=True)
 

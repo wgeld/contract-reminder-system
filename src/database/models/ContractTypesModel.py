@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 class ContractTypes(Base):
-    __tablename__ = 'ContractTypes'
+    __tablename__ = "ContractTypes"
     
     ContractTypeId = Column(Integer, primary_key=True)
     ContractType = Column(String)
