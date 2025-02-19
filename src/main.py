@@ -101,7 +101,7 @@ def send_reminders():
 
 
 if __name__ == "__main__":
-    #process_contracts()
+    process_contracts()
     send_reminders()
 
 

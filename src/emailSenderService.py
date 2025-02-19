@@ -31,7 +31,7 @@ def get_access_token() -> str:
 
 """    
 Returns:
-    bool: True if email sent successfully, False otherwise
+    bool: True if email sent successfully, False otherwise.
 """
 
 def send_contract_email(
