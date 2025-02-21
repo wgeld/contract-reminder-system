@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta, date
+import logging
+from datetime import datetime, timedelta
 from database.services.notificationLogService import NotificationLogService
 from database.services.contractDataService import ContractDataService
 from database.services.reminderHistoryService import ReminderHistoryService
@@ -19,12 +20,10 @@ def process_contracts():
             for contract in unprocessed_contracts:
                 reminder_date = generate_reminder_date(contract.ExpirationDate, contract.ContractTypeId)
                 reminder_history_service.set_reminder(reminder_date, contract.ContractId)
-            
     except Exception as e:
         print(f"An error occurred: {e}")
 
 def generate_reminder_date(expiration_date: datetime, contract_type_id: int): 
-    
     session = get_db_session()
     contract_type_service = ContractTypeService(session)
     days_before_expiration = contract_type_service.get_contract_type_days_before_reminder(contract_type_id)
@@ -80,7 +79,6 @@ def send_reminders():
                     Best regards,
                     Contract Management System
                 """
-
                     # Send the email
                     email_sent = send_contract_email(
                         recipient_email=contract_type.ContractOwnerEmail,
@@ -89,8 +87,6 @@ def send_reminders():
                         subject=subject,
                         body_template=body_template
                     )
-
-                    
                     if email_sent:
                         reminder_history_service.mark_email_as_sent(row.ReminderId)
                         print(f"Email sent successfully to {contract.ContractManager} for contract {contract.Title}")
@@ -98,10 +94,12 @@ def send_reminders():
     except Exception as e:
         print(f"An error occurred: {e}")
 
-
-
 if __name__ == "__main__":
-    process_contracts()
-    send_reminders()
+    logging.basicConfig(filename="script.log", level=logging.INFO)
+    try:
+        process_contracts()
+        send_reminders()
+    except Exception as e:
+        logging.error(f"Error: {e}")
 
 
