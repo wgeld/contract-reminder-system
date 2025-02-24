@@ -9,13 +9,10 @@ class ContractData(Base):
     ContractId = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
     VendorName = sa.Column(sa.String(255), nullable=False)
     VendorNumber = sa.Column(sa.String(100), nullable=True)
-    ContractType = sa.Column(sa.String(100), nullable=True)
     ContractNumber = sa.Column(sa.String(100), nullable=True)
     DocDate = sa.Column(sa.Date, nullable=True)
     Title = sa.Column(sa.String(255), nullable=True)
     ExpirationDate = sa.Column(sa.Date, nullable=True)
     ContractSummary = sa.Column(sa.Text, nullable=True)
-    ContractManager = sa.Column(sa.String(100), nullable=True)
-    ContractSubType = sa.Column(sa.String(100), nullable=True)
     ContractTypeId = sa.Column(sa.Integer, nullable=True)
 

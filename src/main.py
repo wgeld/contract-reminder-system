@@ -89,7 +89,7 @@ def send_reminders():
                     )
                     if email_sent:
                         reminder_history_service.mark_email_as_sent(row.ReminderId)
-                        print(f"Email sent successfully to {contract.ContractManager} for contract {contract.Title}")
+                        print(f"Email sent successfully to {contract_type.ContractManager} for contract {contract.Title}")
                         
     except Exception as e:
         print(f"An error occurred: {e}")
