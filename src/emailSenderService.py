@@ -63,7 +63,7 @@ def send_contract_email(
             "message": {
                 "subject": subject,
                 "body": {
-                    "contentType": "Text",
+                    "contentType": "HTML",
                     "content": body_template
                 },
                 "toRecipients": [
