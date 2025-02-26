@@ -59,30 +59,91 @@ def send_reminders():
                     }
                     subject = f"Contract Expiration Reminder: {contract.Title}"
                     body_template = f"""
-                            <html>
-                            <body>
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>Contract Reminder</title>
+                        <style>
+                            body {{
+                                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                                background-color: #f4f4f4;
+                                margin: 0;
+                                padding: 0;
+                                color: #333;
+                            }}
+                            .email-container {{
+                                max-width: 600px;
+                                margin: 30px auto;
+                                background: #ffffff;
+                                padding: 20px 30px;
+                                border: 1px solid #e0e0e0;
+                                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                            }}
+                            .header {{
+                                border-bottom: 1px solid #e0e0e0;
+                                margin-bottom: 20px;
+                                padding-bottom: 10px;
+                            }}
+                            .footer {{
+                                border-top: 1px solid #e0e0e0;
+                                margin-top: 20px;
+                                padding-top: 10px;
+                                font-size: 0.9em;
+                                color: #777;
+                            }}
+                            ul {{
+                                list-style-type: none;
+                                padding: 0;
+                            }}
+                            li {{
+                                margin-bottom: 10px;
+                            }}
+                            strong {{
+                                color: #555;
+                            }}
+                            .contract-summary {{
+                                background-color: #f9f9f9;
+                                border: 1px solid #e0e0e0;
+                                padding: 15px;
+                                margin: 15px 0;
+                            }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="email-container">
+                            <div class="header">
                                 <p>Dear {contract_type.ContractOwner},</p>
+                            </div>
 
-                                <p>This is a reminder about the following contract that requires your attention:</p>
+                            <p>This is a reminder regarding the following contract that requires your attention:</p>
 
-                                <ul>
-                                    <li><strong>Contract Title:</strong> {contract.Title}</li>
-                                    <li><strong>Vendor:</strong> {contract.VendorName}</li>
-                                    <li><strong>Contract Type:</strong> {contract_type.ContractType}</li>
-                                    <li><strong>Contract ID:</strong> {contract.ContractNumber}</li>
-                                    <li><strong>Expiration Date:</strong> {contract.ExpirationDate.strftime("%Y-%m-%d")}</li>
-                                </ul>
+                            <ul>
+                                <li><strong>Contract Title:</strong> {contract.Title}</li>
+                                <li><strong>Vendor:</strong> {contract.VendorName}</li>
+                                <li><strong>Contract Type:</strong> {contract_type.ContractType}</li>
+                                <li><strong>Contract ID:</strong> {contract.ContractNumber}</li>
+                                <li><strong>Expiration Date:</strong> {contract.ExpirationDate.strftime("%Y-%m-%d")}</li>
+                            </ul>
 
-                                <p><strong>Contract Summary:</strong></p>
+                            <p><strong>Contract Summary:</strong></p>
+                            <div class="contract-summary">
                                 <p>{contract.ContractSummary}</p>
+                            </div>
 
-                                <p>Please review this contract and take necessary actions before the expiration date.</p>
+                            <p>Please review this contract and take the necessary actions before the expiration date.</p>
 
-                                <p>Best regards,<br>
-                                Contract Management System</p>
-                            </body>
-                            </html>
-                        """
+                            <p>Best regards,<br>
+                            Contract Management System</p>
+
+                            <div class="footer">
+                                <p>This email was sent from the Contract Management System. If you have any questions, please contact App Dev.</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                    """
+
                                 # Send the email
                     email_sent = send_contract_email(
                                     recipient_email=contract_type.ContractOwnerEmail,
