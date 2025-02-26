@@ -13,15 +13,8 @@ def get_db_engine():
     password = os.getenv("DB_PASS")
     driver = os.getenv("DB_DRIVER").replace(" ", "+")
 
-    #port = 1433
-
     connection_url = f"mssql+pyodbc://{username}:{password}@{server}/{database}?driver={driver}"
 
-    #print(f"Server: {server}")
-    #print(f"Database: {database}")
-    #print(f"Driver: {driver}")
-    #print(connection_url)
-    
     try:
         engine = create_engine(connection_url, echo=False)
         return engine
