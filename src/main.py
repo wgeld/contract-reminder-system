@@ -160,7 +160,7 @@ def send_reminders():
                                     sender_email="automation@wgeld.org",  
                                     contract_info=contract_info,
                                     subject=subject,
-                                    body_template=body_template
+                                    body_template=body_template,
                                 )
                     if email_sent:
                         reminder_history_service.mark_email_as_sent(row.ReminderId)

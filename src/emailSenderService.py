@@ -11,7 +11,8 @@ CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENTSECRET = os.getenv("CLIENTSECRET")
 TENANT_ID = os.getenv("TENANT_ID")
 AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
-SCOPES = ["https://graph.microsoft.com/.default"]
+SCOPES = ["https://graph.microsoft.com/.default"] 
+CC_EMAIL = os.getenv("CC_EMAIL")
 
 
 def get_access_token() -> str:
@@ -39,7 +40,8 @@ def send_contract_email(
     sender_email: str,
     contract_info: Dict[str, Any],
     subject: str = None,
-    body_template: str = None
+    body_template: str = None,
+    cc_email: str = CC_EMAIL
 ) -> bool:
 
     try:
@@ -68,6 +70,9 @@ def send_contract_email(
                 },
                 "toRecipients": [
                     {"emailAddress": {"address": recipient_email}}
+                ],
+                "ccRecipients": [
+                    {"emailAddress": {"address": cc_email}}
                 ]
             }
         }
