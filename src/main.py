@@ -146,7 +146,7 @@ def send_reminders():
         Contract Management System</p>
 
         <div class="footer">
-            <p>This email was sent from the Contract Management System. If you have any questions, please contact App Dev.</p>
+            <p>This email was sent from the Contract Management System. If you have any questions, please contact App Dev: appdev@wgeld.org.</p>
         </div>
     </div>
 </body>
