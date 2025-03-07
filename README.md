@@ -54,10 +54,3 @@ The Contract Reminder System is a tool designed to help users manage and track c
 4. Push to the branch (`git push origin feature/YourFeature`).
 5. Open a pull request.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For any inquiries or issues, please contact [your-email@example.com](mailto:your-email@example.com).
