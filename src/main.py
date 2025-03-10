@@ -170,11 +170,10 @@ def send_reminders():
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    logging.basicConfig(filename="script.log", level=logging.INFO)
     try:
         process_contracts()
         send_reminders()
     except Exception as e:
-        logging.error(f"Error: {e}")
+        print(f"Error: {e}")
 
 
